@@ -1,0 +1,339 @@
+.ngo-dashboard {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.ngo-dashboard .navbar {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ngo-dashboard .navbar-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ngo-dashboard .navbar h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.ngo-dashboard .user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ngo-dashboard .container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.ngo-dashboard .ngo-info-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ngo-dashboard .ngo-info-card h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.ngo-dashboard .ngo-info-card p {
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.ngo-dashboard .ngo-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.ngo-dashboard .ngo-stats .stat {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.ngo-dashboard .ngo-stats .stat label {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.ngo-dashboard .ngo-stats .stat strong {
+  display: block;
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.ngo-dashboard .tabs {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 0 1rem;
+}
+
+.ngo-dashboard .tab-btn {
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.ngo-dashboard .tab-btn:hover {
+  color: #2c3e50;
+}
+
+.ngo-dashboard .tab-btn.active {
+  color: #27ae60;
+  border-bottom-color: #27ae60;
+}
+
+.ngo-dashboard .tab-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  min-height: 400px;
+}
+
+.ngo-dashboard .loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.ngo-dashboard .no-content {
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.ngo-dashboard .food-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.ngo-dashboard .food-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.ngo-dashboard .food-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.ngo-dashboard .food-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.ngo-dashboard .meal-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.ngo-dashboard .meal-type {
+  margin: 0;
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.ngo-dashboard .quantity-badge {
+  background: #27ae60;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.ngo-dashboard .quantity-badge.claimed {
+  background: #3498db;
+}
+
+.ngo-dashboard .food-details {
+  margin-bottom: 1rem;
+}
+
+.ngo-dashboard .description {
+  margin: 0.5rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.ngo-dashboard .meta-info {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 0.5rem;
+}
+
+.ngo-dashboard .food-notes {
+  background: #f9f9f9;
+  padding: 0.8rem;
+  border-left: 3px solid #27ae60;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.ngo-dashboard .claim-form {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.ngo-dashboard .claim-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.ngo-dashboard .form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.ngo-dashboard .form-actions button {
+  flex: 1;
+}
+
+.ngo-dashboard .status-badge {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ngo-dashboard .badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.ngo-dashboard .status-claimed {
+  background: #e8f5e9;
+  color: #27ae60;
+}
+
+.ngo-dashboard .food-card.claimed {
+  border-color: #27ae60;
+  background: #f8fff8;
+}
+
+.error,
+.success {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.error {
+  background: #ffe6e6;
+  color: #c00;
+  border: 1px solid #ffcccc;
+}
+
+.success {
+  background: #e8f5e9;
+  color: #27ae60;
+  border: 1px solid #4caf50;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #229954;
+}
+
+.btn-primary:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #7f8c8d;
+}
+
+.btn-small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  width: 100%;
+  margin-top: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .ngo-dashboard .food-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ngo-dashboard .ngo-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .ngo-dashboard .navbar-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ngo-dashboard .tabs {
+    flex-wrap: wrap;
+  }
+}

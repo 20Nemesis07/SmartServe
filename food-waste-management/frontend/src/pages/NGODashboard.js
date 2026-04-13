@@ -1,0 +1,274 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useNGOAuthStore from '../context/useNGOAuthStore';
+import { ngoAPI } from '../utils/api';
+import '../styles/ngo-dashboard.css';
+
+export default function NGODashboard() {
+  const navigate = useNavigate();
+  const { ngo, logoutNGO } = useNGOAuthStore();
+  const [availableFood, setAvailableFood] = useState([]);
+  const [claimedFood, setClaimedFood] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [activeTab, setActiveTab] = useState('available');
+  const [claimingId, setClaimingId] = useState(null);
+  const [claimNotes, setClaimNotes] = useState('');
+
+  useEffect(() => {
+    fetchAvailableFood();
+    fetchClaimedFood();
+  }, []);
+
+  const fetchAvailableFood = async () => {
+    try {
+      setLoading(true);
+      const { data } = await ngoAPI.getAvailableFood();
+      setAvailableFood(data.foodSurplus || []);
+      setError(null);
+    } catch (err) {
+      setError('Failed to load available food');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchClaimedFood = async () => {
+    try {
+      const { data } = await ngoAPI.getClaimedFood();
+      setClaimedFood(data.foodCollected || []);
+    } catch (err) {
+      console.error('Failed to load claimed food:', err);
+    }
+  };
+
+  const handleClaimFood = async (foodId) => {
+    try {
+      await ngoAPI.claimFood({
+        foodSurplusId: foodId,
+        notes: claimNotes,
+      });
+      setSuccess('Food claimed successfully!');
+      setClaimingId(null);
+      setClaimNotes('');
+      fetchAvailableFood();
+      fetchClaimedFood();
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || 'Failed to claim food';
+      setError(errorMsg);
+    }
+  };
+
+  const handleLogout = () => {
+    logoutNGO();
+    navigate('/ngo/login');
+  };
+
+  const getTimeAgo = (date) => {
+    const now = new Date();
+    const time = new Date(date);
+    const diff = Math.floor((now - time) / 1000 / 60);
+
+    if (diff < 1) return 'Just now';
+    if (diff < 60) return `${diff} minutes ago`;
+    if (diff < 1440) return `${Math.floor(diff / 60)} hours ago`;
+    return `${Math.floor(diff / 1440)} days ago`;
+  };
+
+  return (
+    <div className="ngo-dashboard">
+      <header className="navbar">
+        <div className="navbar-content">
+          <h1>🤝 NGO Dashboard</h1>
+          <div className="user-info">
+            <span>Welcome, {ngo?.name}</span>
+            <button onClick={handleLogout} className="btn-secondary btn-small">
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="container">
+        {error && <div className="error">{error}</div>}
+        {success && <div className="success">{success}</div>}
+
+        {/* NGO Info Card */}
+        <div className="ngo-info-card card">
+          <h3>{ngo?.name}</h3>
+          <p>{ngo?.description}</p>
+          <div className="ngo-stats">
+            <div className="stat">
+              <label>Total Food Collected</label>
+              <strong>{ngo?.foodCollected || 0} units</strong>
+            </div>
+            <div className="stat">
+              <label>Beneficiaries</label>
+              <strong>{ngo?.beneficiaries || 0}</strong>
+            </div>
+            <div className="stat">
+              <label>Contact Person</label>
+              <strong>{ngo?.contactPerson}</strong>
+            </div>
+            <div className="stat">
+              <label>Phone</label>
+              <strong>{ngo?.phone}</strong>
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="tabs">
+          <button
+            className={`tab-btn ${activeTab === 'available' ? 'active' : ''}`}
+            onClick={() => setActiveTab('available')}
+          >
+            Available Food ({availableFood.length})
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'claimed' ? 'active' : ''}`}
+            onClick={() => setActiveTab('claimed')}
+          >
+            Claimed Food ({claimedFood.length})
+          </button>
+        </div>
+
+        {/* Available Food Tab */}
+        {activeTab === 'available' && (
+          <div className="tab-content">
+            {loading ? (
+              <div className="loading">Loading available food...</div>
+            ) : availableFood.length === 0 ? (
+              <div className="no-content">
+                <p>No available food at the moment</p>
+              </div>
+            ) : (
+              <div className="food-list">
+                {availableFood.map((food) => (
+                  <div key={food._id} className="food-card card">
+                    <div className="food-header">
+                      <div className="meal-info">
+                        <h4>{food.mealId?.name || 'Meal'}</h4>
+                        <p className="meal-type">
+                          {food.mealId?.mealType?.toUpperCase()}
+                        </p>
+                      </div>
+                      <div className="quantity-badge">
+                        {food.quantity} units
+                      </div>
+                    </div>
+
+                    <div className="food-details">
+                      <p className="description">
+                        {food.mealId?.description}
+                      </p>
+                      <div className="meta-info">
+                        <span>
+                          📅 {new Date(food.date).toLocaleDateString()}
+                        </span>
+                        <span>📝 Reported {getTimeAgo(food.createdAt)}</span>
+                      </div>
+                      {food.description && (
+                        <div className="food-notes">
+                          <strong>Notes:</strong> {food.description}
+                        </div>
+                      )}
+                    </div>
+
+                    {claimingId === food._id ? (
+                      <div className="claim-form">
+                        <textarea
+                          placeholder="Add notes (optional)"
+                          value={claimNotes}
+                          onChange={(e) => setClaimNotes(e.target.value)}
+                          rows="2"
+                        />
+                        <div className="form-actions">
+                          <button
+                            onClick={() => handleClaimFood(food._id)}
+                            className="btn-primary btn-small"
+                          >
+                            Confirm Claim
+                          </button>
+                          <button
+                            onClick={() => {
+                              setClaimingId(null);
+                              setClaimNotes('');
+                            }}
+                            className="btn-secondary btn-small"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setClaimingId(food._id)}
+                        className="btn-primary btn-small"
+                      >
+                        Claim Food
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Claimed Food Tab */}
+        {activeTab === 'claimed' && (
+          <div className="tab-content">
+            {claimedFood.length === 0 ? (
+              <div className="no-content">
+                <p>You haven't claimed any food yet</p>
+              </div>
+            ) : (
+              <div className="food-list">
+                {claimedFood.map((food) => (
+                  <div key={food._id} className="food-card card claimed">
+                    <div className="food-header">
+                      <div className="meal-info">
+                        <h4>{food.mealId?.name || 'Meal'}</h4>
+                        <p className="meal-type">
+                          {food.mealId?.mealType?.toUpperCase()}
+                        </p>
+                      </div>
+                      <div className="quantity-badge claimed">
+                        {food.quantity} units
+                      </div>
+                    </div>
+
+                    <div className="food-details">
+                      <p className="description">
+                        {food.mealId?.description}
+                      </p>
+                      <div className="meta-info">
+                        <span>
+                          📅 {new Date(food.date).toLocaleDateString()}
+                        </span>
+                        <span>✅ Claimed {getTimeAgo(food.claimedAt)}</span>
+                      </div>
+                      {food.notes && (
+                        <div className="food-notes">
+                          <strong>Notes:</strong> {food.notes}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="status-badge">
+                      <span className="badge status-claimed">Claimed</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

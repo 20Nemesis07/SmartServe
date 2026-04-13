@@ -1,0 +1,1 @@
+- [Food Waste Management Project](project_food_waste.md) — College food waste MERN app with student meal booking and NGO surplus food management
