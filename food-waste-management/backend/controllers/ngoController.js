@@ -26,17 +26,17 @@ exports.registerNGO = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create NGO
-    ngo = await NGO.create({
-      name,
-      email,
-      password: hashedPassword,
-      phone,
-      address,
-      city,
-      description,
-      contactPerson,
-      isVerified: false,
-    });
+   ngo = await NGO.create({
+  name,
+  email,
+  password: hashedPassword,
+  phone,
+  address,
+  city,
+  description,
+  contactPerson,
+  isVerified: false,
+});
 
     // Remove password from response
     const ngoResponse = ngo.toObject();
