@@ -16,12 +16,12 @@ export default function YourBookingsPage() {
 
   useEffect(() => {
     fetchBookings();
-  }, [selectedDate]);
+  }, []);
 
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const { data } = await bookingAPI.getStudentBookings({ date: selectedDate });
+      const { data } = await bookingAPI.getMyBookings();
       setBookings(data.bookings || []);
       setError(null);
     } catch (err) {
