@@ -22,7 +22,7 @@ const mealSchema = new mongoose.Schema(
     },
     baseQuantity: {
       type: Number, // Expected number of students
-      required: true,
+      default: 0,
     },
     actualQuantityPrepared: {
       type: Number,
