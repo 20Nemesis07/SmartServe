@@ -29,7 +29,6 @@ export default function MessDashboard() {
     description: '',
     mealType: 'breakfast',
     date: selectedDate,
-    baseQuantity: '',
     markPrice: '',
   });
 
@@ -110,7 +109,6 @@ export default function MessDashboard() {
         description: '',
         mealType: 'breakfast',
         date: selectedDate,
-        baseQuantity: '',
         markPrice: '',
       });
 
@@ -290,17 +288,6 @@ export default function MessDashboard() {
                     <option value="lunch">Lunch</option>
                     <option value="dinner">Dinner</option>
                   </select>
-                </div>
-
-                <div className="form-group">
-                  <label>Expected Quantity</label>
-                  <input
-                    type="number"
-                    name="baseQuantity"
-                    value={formData.baseQuantity}
-                    onChange={handleFormChange}
-                    required
-                  />
                 </div>
               </div>
 
