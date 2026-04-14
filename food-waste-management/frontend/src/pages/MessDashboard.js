@@ -52,6 +52,15 @@ export default function MessDashboard() {
     fetchExcessFood();
   }, [selectedDate]);
 
+  // Auto-refresh bookings every 5 seconds to show real-time booking updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchBookings();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [selectedDate]);
+
   const fetchMeals = async () => {
     try {
       setLoading(true);
