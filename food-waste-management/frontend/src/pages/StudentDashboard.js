@@ -140,6 +140,7 @@ export default function StudentDashboard() {
                 id="date-input"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
+                min={new Date().toISOString().split('T')[0]}
               />
             </div>
 

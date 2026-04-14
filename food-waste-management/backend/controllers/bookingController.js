@@ -2,6 +2,22 @@ const Booking = require('../models/Booking');
 const Meal = require('../models/Meal');
 const User = require('../models/User');
 
+// Helper function to parse date string consistently
+const parseDateString = (dateStr) => {
+  if (!dateStr) return null;
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+};
+
+// Helper function to get date range for a specific day
+const getDateRange = (dateStr) => {
+  if (!dateStr) return null;
+  const startDate = parseDateString(dateStr);
+  const endDate = new Date(startDate);
+  endDate.setUTCDate(endDate.getUTCDate() + 1);
+  return { $gte: startDate, $lt: endDate };
+};
+
 // Create a booking
 exports.createBooking = async (req, res) => {
   try {
@@ -23,13 +39,11 @@ exports.createBooking = async (req, res) => {
       return res.status(400).json({ success: false, message: 'You have already booked this meal' });
     }
 
-    // Create booking
-    const bookingDate = new Date(date);
-    bookingDate.setUTCHours(0, 0, 0, 0);
+    // Create booking with consistent UTC date parsing
     const booking = await Booking.create({
       studentId: req.userId,
       mealId,
-      date: bookingDate,
+      date: parseDateString(date),
       mealType,
       quantity,
       specialRequests,
@@ -76,11 +90,7 @@ exports.getAllBookings = async (req, res) => {
 
     const filter = {};
     if (date) {
-      const startDate = new Date(date);
-      startDate.setUTCHours(0, 0, 0, 0);
-      const endDate = new Date(startDate);
-      endDate.setUTCDate(endDate.getUTCDate() + 1);
-      filter.date = { $gte: startDate, $lt: endDate };
+      filter.date = getDateRange(date);
     }
     if (status) filter.status = status;
 
