@@ -62,7 +62,6 @@ export default function NGORegister() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                placeholder="Your NGO Name"
               />
             </div>
 
@@ -75,7 +74,6 @@ export default function NGORegister() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                placeholder="your@ngo.com"
               />
             </div>
 
@@ -88,7 +86,6 @@ export default function NGORegister() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                placeholder="Enter password"
               />
             </div>
 
@@ -101,7 +98,6 @@ export default function NGORegister() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                placeholder="Confirm password"
               />
             </div>
 
@@ -114,7 +110,6 @@ export default function NGORegister() {
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                placeholder="+91 9876543210"
               />
             </div>
 
@@ -127,7 +122,6 @@ export default function NGORegister() {
                 value={formData.city}
                 onChange={handleChange}
                 required
-                placeholder="City name"
               />
             </div>
 
@@ -140,7 +134,6 @@ export default function NGORegister() {
                 value={formData.contactPerson}
                 onChange={handleChange}
                 required
-                placeholder="Full name"
               />
             </div>
           </div>
@@ -153,7 +146,6 @@ export default function NGORegister() {
               value={formData.address}
               onChange={handleChange}
               required
-              placeholder="NGO Address"
               rows="2"
             />
           </div>
@@ -165,7 +157,6 @@ export default function NGORegister() {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              placeholder="About your NGO"
               rows="3"
             />
           </div>

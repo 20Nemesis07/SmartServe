@@ -47,7 +47,6 @@ export default function MessRegister() {
               value={formData.name}
               onChange={handleChange}
               required
-              placeholder="John Doe"
             />
           </div>
 
@@ -60,7 +59,6 @@ export default function MessRegister() {
               value={formData.email}
               onChange={handleChange}
               required
-              placeholder="your@email.com"
             />
           </div>
 
@@ -73,7 +71,6 @@ export default function MessRegister() {
               value={formData.password}
               onChange={handleChange}
               required
-              placeholder="Enter a strong password"
             />
           </div>
 
@@ -86,7 +83,6 @@ export default function MessRegister() {
               value={formData.phone}
               onChange={handleChange}
               required
-              placeholder="+91 XXXXXXXXXX"
             />
           </div>
 

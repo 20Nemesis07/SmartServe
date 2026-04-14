@@ -49,7 +49,6 @@ export default function Register() {
               value={formData.name}
               onChange={handleChange}
               required
-              placeholder="John Doe"
             />
           </div>
 
@@ -62,7 +61,6 @@ export default function Register() {
               value={formData.email}
               onChange={handleChange}
               required
-              placeholder="your@email.com"
             />
           </div>
 
@@ -75,7 +73,6 @@ export default function Register() {
               value={formData.password}
               onChange={handleChange}
               required
-              placeholder="Enter a strong password"
             />
           </div>
 
@@ -88,7 +85,6 @@ export default function Register() {
               value={formData.phone}
               onChange={handleChange}
               required
-              placeholder="+91 XXXXXXXXXX"
             />
           </div>
 
@@ -100,7 +96,6 @@ export default function Register() {
               name="registrationNumber"
               value={formData.registrationNumber}
               onChange={handleChange}
-              placeholder="e.g., 2023001"
             />
           </div>
 
@@ -112,7 +107,6 @@ export default function Register() {
               name="department"
               value={formData.department}
               onChange={handleChange}
-              placeholder="e.g., CSE"
             />
           </div>
 
