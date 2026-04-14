@@ -183,7 +183,13 @@ exports.claimFood = async (req, res) => {
 // Get NGO's Claimed Food
 exports.getClaimedFood = async (req, res) => {
   try {
-    const ngo = await NGO.findById(req.ngoId).populate('foodSurplusCollected');
+    const ngo = await NGO.findById(req.ngoId).populate({
+      path: 'foodSurplusCollected',
+      populate: {
+        path: 'mealId',
+        select: 'name description mealType baseQuantity'
+      }
+    });
     if (!ngo) {
       return res.status(404).json({ success: false, message: 'NGO not found' });
     }
