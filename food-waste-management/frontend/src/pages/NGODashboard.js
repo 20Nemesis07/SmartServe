@@ -36,7 +36,7 @@ export default function NGODashboard() {
   const fetchNGOProfile = async () => {
     try {
       const { data } = await ngoAPI.getNGOProfile();
-      setTotalFoodCollected(data.foodCollected || 0);
+      setTotalFoodCollected(data.ngo?.foodCollected || 0);
     } catch (err) {
       console.error('Failed to load NGO profile:', err);
     }
