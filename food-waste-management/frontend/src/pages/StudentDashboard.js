@@ -115,7 +115,7 @@ export default function StudentDashboard() {
     <div className="dashboard">
       <header className="navbar">
         <div className="navbar-content">
-          <h1>🍽️ Food Waste Management</h1>
+          <h1>🎓 Student Dashboard</h1>
           <div className="user-info">
             <span>Welcome, {user?.name}</span>
             <button onClick={handleLogout} className="btn-secondary btn-small">
