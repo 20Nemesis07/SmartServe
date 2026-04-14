@@ -1,6 +1,22 @@
 const Meal = require('../models/Meal');
 const Booking = require('../models/Booking');
 
+// Helper function to parse date string (YYYY-MM-DD) to start of day UTC
+const parseDateString = (dateStr) => {
+  if (!dateStr) return null;
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+};
+
+// Helper function to get date range for a specific day
+const getDateRange = (dateStr) => {
+  if (!dateStr) return null;
+  const startDate = parseDateString(dateStr);
+  const endDate = new Date(startDate);
+  endDate.setUTCDate(endDate.getUTCDate() + 1);
+  return { $gte: startDate, $lt: endDate };
+};
+
 // Create a new meal (Mess Staff)
 exports.createMeal = async (req, res) => {
   try {
@@ -10,7 +26,7 @@ exports.createMeal = async (req, res) => {
       name,
       description,
       mealType,
-      date: new Date(date),
+      date: parseDateString(date),
       baseQuantity,
       markPrice,
       nutrition,
@@ -33,7 +49,7 @@ exports.getMeals = async (req, res) => {
     const { date, mealType, skip = 0, limit = 10 } = req.query;
 
     const filter = {};
-    if (date) filter.date = { $gte: new Date(date) };
+    if (date) filter.date = getDateRange(date);
     if (mealType) filter.mealType = mealType;
 
     const meals = await Meal.find(filter)
@@ -48,6 +64,7 @@ exports.getMeals = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
+}
 };
 
 // Get meal by ID
@@ -101,12 +118,10 @@ exports.deleteMeal = async (req, res) => {
 exports.getMealsForDate = async (req, res) => {
   try {
     const { date } = req.params;
-    const startDate = new Date(date);
-    const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + 1);
+    const dateRange = getDateRange(date);
 
     const meals = await Meal.find({
-      date: { $gte: startDate, $lt: endDate }
+      date: dateRange
     }).populate('bookings');
 
     res.status(200).json({ success: true, meals });

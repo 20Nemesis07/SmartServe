@@ -1,6 +1,13 @@
 const FoodSurplus = require('../models/FoodSurplus');
 const Meal = require('../models/Meal');
 
+// Helper function to parse date string (YYYY-MM-DD) to start of day UTC
+const parseDateString = (dateStr) => {
+  if (!dateStr) return new Date();
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+};
+
 // Report food surplus
 exports.reportFoodSurplus = async (req, res) => {
   try {
@@ -25,7 +32,7 @@ exports.reportFoodSurplus = async (req, res) => {
       quantity,
       description: description || '',
       reportedBy: req.userId,
-      date: date || new Date(),
+      date: parseDateString(date),
       status: 'available',
     });
 

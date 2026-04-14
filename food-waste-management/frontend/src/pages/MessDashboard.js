@@ -89,7 +89,7 @@ export default function MessDashboard() {
     try {
       await mealAPI.createMeal({
         ...formData,
-        date: new Date(formData.date),
+        date: formData.date, // Send as string, not Date object
       });
 
       setSuccess('Meal created successfully!');
@@ -119,7 +119,7 @@ export default function MessDashboard() {
         mealType: manualFoodData.mealType,
         quantity: parseInt(manualFoodData.quantity),
         description: `${manualFoodData.foodName} - ${manualFoodData.description}`,
-        date: new Date(manualFoodData.date),
+        date: manualFoodData.date, // Send as string, not Date object
       });
 
       setSuccess('Excess food added successfully!');
