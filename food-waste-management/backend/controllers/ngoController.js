@@ -123,7 +123,7 @@ exports.getAvailableFood = async (req, res) => {
 // Claim Food for NGO
 exports.claimFood = async (req, res) => {
   try {
-    const { foodSurplusId, notes } = req.body;
+    const { foodSurplusId, quantity, notes } = req.body;
 
     const foodSurplus = await FoodSurplus.findById(foodSurplusId);
     if (!foodSurplus) {
@@ -134,8 +134,28 @@ exports.claimFood = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Food is no longer available' });
     }
 
+    // Validate quantity
+    const claimQuantity = quantity || foodSurplus.quantity;
+    if (claimQuantity <= 0) {
+      return res.status(400).json({ success: false, message: 'Quantity must be greater than 0' });
+    }
+
+    if (claimQuantity > foodSurplus.quantity) {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot claim more than available. Available: ${foodSurplus.quantity} units`
+      });
+    }
+
     // Update food surplus
-    foodSurplus.status = 'claimed';
+    if (claimQuantity === foodSurplus.quantity) {
+      // Full claim - mark as claimed
+      foodSurplus.status = 'claimed';
+    } else {
+      // Partial claim - reduce quantity
+      foodSurplus.quantity -= claimQuantity;
+    }
+
     foodSurplus.claimedAt = new Date();
     foodSurplus.claimedBy = req.ngoId;
     foodSurplus.ngoId = req.ngoId;
@@ -146,7 +166,7 @@ exports.claimFood = async (req, res) => {
 
     // Update NGO's collected food
     const ngo = await NGO.findById(req.ngoId);
-    ngo.foodCollected = (ngo.foodCollected || 0) + foodSurplus.quantity;
+    ngo.foodCollected = (ngo.foodCollected || 0) + claimQuantity;
     ngo.foodSurplusCollected.push(foodSurplusId);
     await ngo.save();
 

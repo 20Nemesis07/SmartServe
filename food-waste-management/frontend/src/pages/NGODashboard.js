@@ -15,6 +15,7 @@ export default function NGODashboard() {
   const [activeTab, setActiveTab] = useState('available');
   const [claimingId, setClaimingId] = useState(null);
   const [claimNotes, setClaimNotes] = useState('');
+  const [claimQuantity, setClaimQuantity] = useState('');
 
   useEffect(() => {
     fetchAvailableFood();
@@ -44,15 +45,29 @@ export default function NGODashboard() {
     }
   };
 
-  const handleClaimFood = async (foodId) => {
+  const handleClaimFood = async (foodId, availableQuantity) => {
+    // Validate quantity
+    if (!claimQuantity || claimQuantity <= 0) {
+      setError('Please enter a valid quantity');
+      return;
+    }
+
+    if (parseInt(claimQuantity) > availableQuantity) {
+      setError(`Quantity cannot exceed available amount (${availableQuantity} units)`);
+      return;
+    }
+
     try {
       await ngoAPI.claimFood({
         foodSurplusId: foodId,
+        quantity: parseInt(claimQuantity),
         notes: claimNotes,
       });
       setSuccess('Food claimed successfully!');
       setClaimingId(null);
       setClaimNotes('');
+      setClaimQuantity('');
+      setError(null);
       fetchAvailableFood();
       fetchClaimedFood();
       setTimeout(() => setSuccess(null), 3000);
@@ -180,15 +195,30 @@ export default function NGODashboard() {
 
                     {claimingId === food._id ? (
                       <div className="claim-form">
-                        <textarea
-                          placeholder="Add notes (optional)"
-                          value={claimNotes}
-                          onChange={(e) => setClaimNotes(e.target.value)}
-                          rows="2"
-                        />
+                        <div className="form-group">
+                          <label>Quantity to Claim</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max={food.quantity}
+                            value={claimQuantity}
+                            onChange={(e) => setClaimQuantity(e.target.value)}
+                            placeholder={`Max: ${food.quantity} units`}
+                          />
+                          <small>Available: {food.quantity} units</small>
+                        </div>
+                        <div className="form-group">
+                          <label>Notes (Optional)</label>
+                          <textarea
+                            placeholder="Add any notes about pickup time, special instructions, etc."
+                            value={claimNotes}
+                            onChange={(e) => setClaimNotes(e.target.value)}
+                            rows="2"
+                          />
+                        </div>
                         <div className="form-actions">
                           <button
-                            onClick={() => handleClaimFood(food._id)}
+                            onClick={() => handleClaimFood(food._id, food.quantity)}
                             className="btn-primary btn-small"
                           >
                             Confirm Claim
@@ -197,6 +227,8 @@ export default function NGODashboard() {
                             onClick={() => {
                               setClaimingId(null);
                               setClaimNotes('');
+                              setClaimQuantity('');
+                              setError(null);
                             }}
                             className="btn-secondary btn-small"
                           >
