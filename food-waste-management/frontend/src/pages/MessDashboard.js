@@ -50,6 +50,9 @@ export default function MessDashboard() {
     fetchMeals();
     fetchBookings();
     fetchExcessFood();
+    // Update form data with selected date
+    setFormData(prev => ({ ...prev, date: selectedDate }));
+    setManualFoodData(prev => ({ ...prev, date: selectedDate }));
   }, [selectedDate]);
 
   // Auto-refresh bookings every 5 seconds to show real-time booking updates
