@@ -118,6 +118,9 @@ export default function Register() {
         <p className="auth-link">
           Already have an account? <a href="/login">Login here</a>
         </p>
+        <p className="auth-link">
+          <a href="/">Back to Home</a>
+        </p>
       </div>
     </div>
   );
