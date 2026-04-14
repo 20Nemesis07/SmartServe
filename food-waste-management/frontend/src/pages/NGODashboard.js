@@ -16,11 +16,31 @@ export default function NGODashboard() {
   const [claimingId, setClaimingId] = useState(null);
   const [claimNotes, setClaimNotes] = useState('');
   const [claimQuantity, setClaimQuantity] = useState('');
+  const [totalFoodCollected, setTotalFoodCollected] = useState(ngo?.foodCollected || 0);
 
   useEffect(() => {
     fetchAvailableFood();
     fetchClaimedFood();
+    fetchNGOProfile();
   }, []);
+
+  // Auto-refresh NGO profile every 3 seconds to show real-time food collected updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchNGOProfile();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchNGOProfile = async () => {
+    try {
+      const { data } = await ngoAPI.getNGOProfile();
+      setTotalFoodCollected(data.foodCollected || 0);
+    } catch (err) {
+      console.error('Failed to load NGO profile:', err);
+    }
+  };
 
   const fetchAvailableFood = async () => {
     try {
@@ -70,6 +90,7 @@ export default function NGODashboard() {
       setError(null);
       fetchAvailableFood();
       fetchClaimedFood();
+      fetchNGOProfile(); // Update total food collected
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
       const errorMsg = err.response?.data?.message || 'Failed to claim food';
@@ -118,7 +139,7 @@ export default function NGODashboard() {
           <div className="ngo-stats">
             <div className="stat">
               <label>Total Food Collected</label>
-              <strong>{ngo?.foodCollected || 0} units</strong>
+              <strong>{totalFoodCollected} units</strong>
             </div>
             <div className="stat">
               <label>Beneficiaries</label>
