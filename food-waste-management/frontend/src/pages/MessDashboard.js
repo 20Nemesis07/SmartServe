@@ -39,7 +39,7 @@ export default function MessDashboard() {
   });
 
   const [manualFoodData, setManualFoodData] = useState({
-    foodName: '',
+    mealId: '',
     quantity: '',
     mealType: 'breakfast',
     description: '',
@@ -114,17 +114,22 @@ export default function MessDashboard() {
   const handleAddExcessFood = async (e) => {
     e.preventDefault();
     try {
+      // Validate that a meal is selected
+      if (!manualFoodData.mealId) {
+        setError('Please select a meal');
+        return;
+      }
+
       await foodSurplusAPI.reportFoodSurplus({
-        mealId: null,
-        mealType: manualFoodData.mealType,
+        mealId: manualFoodData.mealId,
         quantity: parseInt(manualFoodData.quantity),
-        description: `${manualFoodData.foodName} - ${manualFoodData.description}`,
-        date: manualFoodData.date, // Send as string, not Date object
+        description: manualFoodData.description,
+        date: manualFoodData.date,
       });
 
       setSuccess('Excess food added successfully!');
       setManualFoodData({
-        foodName: '',
+        mealId: '',
         quantity: '',
         mealType: 'breakfast',
         description: '',
@@ -304,14 +309,19 @@ export default function MessDashboard() {
             <h3>➕ Add Excess Food for NGO Pickup</h3>
             <form onSubmit={handleAddExcessFood}>
               <div className="form-grid">
-                <input
-                  type="text"
-                  name="foodName"
-                  value={manualFoodData.foodName}
+                <select
+                  name="mealId"
+                  value={manualFoodData.mealId}
                   onChange={handleManualFoodChange}
-                  placeholder="Food name"
                   required
-                />
+                >
+                  <option value="">Select a meal</option>
+                  {meals.map((meal) => (
+                    <option key={meal._id} value={meal._id}>
+                      {meal.name} ({meal.mealType.toUpperCase()})
+                    </option>
+                  ))}
+                </select>
 
                 <input
                   type="number"
@@ -327,7 +337,7 @@ export default function MessDashboard() {
                 name="description"
                 value={manualFoodData.description}
                 onChange={handleManualFoodChange}
-                placeholder="Description"
+                placeholder="Description (optional)"
               />
 
               <button type="submit" className="btn-primary">
