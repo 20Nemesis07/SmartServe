@@ -93,48 +93,28 @@ export default function Register() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="role">Role</label>
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
+            <label htmlFor="registrationNumber">Registration Number</label>
+            <input
+              type="text"
+              id="registrationNumber"
+              name="registrationNumber"
+              value={formData.registrationNumber}
               onChange={handleChange}
-              required
-            >
-              <option value="student">Student</option>
-              <option value="mess_staff">Mess Staff</option>
-              <option value="ngo_admin">NGO Admin</option>
-            </select>
+              placeholder="e.g., 2023001"
+            />
           </div>
 
-          {formData.role === 'student' && (
-            <>
-              <div className="form-group">
-                <label htmlFor="registrationNumber">Registration Number *</label>
-                <input
-                  type="text"
-                  id="registrationNumber"
-                  name="registrationNumber"
-                  value={formData.registrationNumber}
-                  onChange={handleChange}
-                  required
-                  placeholder="e.g., 2023001"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="department">Department</label>
-                <input
-                  type="text"
-                  id="department"
-                  name="department"
-                  value={formData.department}
-                  onChange={handleChange}
-                  placeholder="e.g., CSE"
-                />
-              </div>
-            </>
-          )}
+          <div className="form-group">
+            <label htmlFor="department">Department</label>
+            <input
+              type="text"
+              id="department"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              placeholder="e.g., CSE"
+            />
+          </div>
 
           <button type="submit" className="btn-primary" disabled={isLoading}>
             {isLoading ? 'Creating Account...' : 'Sign Up'}

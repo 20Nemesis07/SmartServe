@@ -64,7 +64,7 @@ export default function NGODashboard() {
 
   const handleLogout = () => {
     logoutNGO();
-    navigate('/ngo/login');
+    navigate('/');
   };
 
   const getTimeAgo = (date) => {

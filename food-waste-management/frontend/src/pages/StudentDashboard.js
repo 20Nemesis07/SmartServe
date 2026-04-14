@@ -89,7 +89,7 @@ export default function StudentDashboard() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   const getQRCodeValue = (booking) => {

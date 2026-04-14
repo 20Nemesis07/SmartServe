@@ -163,7 +163,7 @@ export default function MessDashboard() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   const handleFormChange = (e) => {
