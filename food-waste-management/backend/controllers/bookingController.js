@@ -24,10 +24,12 @@ exports.createBooking = async (req, res) => {
     }
 
     // Create booking
+    const bookingDate = new Date(date);
+    bookingDate.setUTCHours(0, 0, 0, 0);
     const booking = await Booking.create({
       studentId: req.userId,
       mealId,
-      date: new Date(date),
+      date: bookingDate,
       mealType,
       quantity,
       specialRequests,
@@ -70,13 +72,14 @@ exports.getStudentBookings = async (req, res) => {
 // Get all bookings (for mess staff)
 exports.getAllBookings = async (req, res) => {
   try {
-    const { date, status, skip = 0, limit = 10 } = req.query;
+    const { date, status, skip = 0, limit = 1000 } = req.query;
 
     const filter = {};
     if (date) {
       const startDate = new Date(date);
+      startDate.setUTCHours(0, 0, 0, 0);
       const endDate = new Date(startDate);
-      endDate.setDate(endDate.getDate() + 1);
+      endDate.setUTCDate(endDate.getUTCDate() + 1);
       filter.date = { $gte: startDate, $lt: endDate };
     }
     if (status) filter.status = status;
