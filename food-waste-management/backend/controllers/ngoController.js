@@ -1,7 +1,6 @@
 const NGO = require('../models/NGO');
 const FoodSurplus = require('../models/FoodSurplus');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
 // Generate JWT Token
 const generateToken = (id, role) => {
@@ -21,22 +20,18 @@ exports.registerNGO = async (req, res) => {
       return res.status(400).json({ success: false, message: 'NGO already exists with this email' });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create NGO
-   ngo = await NGO.create({
-  name,
-  email,
-  password: hashedPassword,
-  phone,
-  address,
-  city,
-  description,
-  contactPerson,
-  isVerified: false,
-});
+    // Create NGO (password will be hashed by pre-save hook)
+    ngo = await NGO.create({
+      name,
+      email,
+      password,
+      phone,
+      address,
+      city,
+      description,
+      contactPerson,
+      isVerified: false,
+    });
 
     // Remove password from response
     const ngoResponse = ngo.toObject();
