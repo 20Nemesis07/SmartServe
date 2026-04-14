@@ -5,6 +5,7 @@ import useNGOAuthStore from './context/useNGOAuthStore';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import MessRegister from './pages/MessRegister';
 import NGOLogin from './pages/NGOLogin';
 import NGORegister from './pages/NGORegister';
 import StudentDashboard from './pages/StudentDashboard';
@@ -50,6 +51,7 @@ function App() {
         {/* Student/Mess Staff Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/mess/register" element={<MessRegister />} />
 
         {/* NGO Routes */}
         <Route path="/ngo/login" element={<NGOLogin />} />

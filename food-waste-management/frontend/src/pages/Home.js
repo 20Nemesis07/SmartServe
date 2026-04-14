@@ -52,7 +52,7 @@ export default function Home() {
                 Login
               </button>
               <button
-                onClick={() => navigate('/register')}
+                onClick={() => navigate('/mess/register')}
                 className="btn-secondary"
               >
                 Register
