@@ -11,6 +11,9 @@ import NGORegister from './pages/NGORegister';
 import StudentDashboard from './pages/StudentDashboard';
 import MessDashboard from './pages/MessDashboard';
 import NGODashboard from './pages/NGODashboard';
+import AddMealPage from './pages/AddMealPage';
+import ExcessFoodPage from './pages/ExcessFoodPage';
+import AddExcessFoodPage from './pages/AddExcessFoodPage';
 import './styles/global.css';
 
 // Protected Route Component for Student/Mess Staff
@@ -81,6 +84,42 @@ function App() {
           element={
             <ProtectedRoute requiredRole="mess_staff">
               <MessDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/mess-dashboard"
+          element={
+            <ProtectedRoute requiredRole="mess_staff">
+              <MessDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/add-meal-page"
+          element={
+            <ProtectedRoute requiredRole="mess_staff">
+              <AddMealPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/excess-food-page"
+          element={
+            <ProtectedRoute requiredRole="mess_staff">
+              <ExcessFoodPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/add-excess-food-page"
+          element={
+            <ProtectedRoute requiredRole="mess_staff">
+              <AddExcessFoodPage />
             </ProtectedRoute>
           }
         />
