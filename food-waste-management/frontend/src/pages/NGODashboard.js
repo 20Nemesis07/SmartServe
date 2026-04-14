@@ -143,10 +143,6 @@ export default function NGODashboard() {
               <strong>{totalFoodCollected} units</strong>
             </div>
             <div className="stat">
-              <label>Beneficiaries</label>
-              <strong>{ngo?.beneficiaries || 0}</strong>
-            </div>
-            <div className="stat">
               <label>Contact Person</label>
               <strong>{ngo?.contactPerson}</strong>
             </div>
