@@ -404,27 +404,19 @@ export default function MessDashboard() {
 
                   {mealsByType.map((meal) => {
                     const mealBookings = getBookingsForMeal(meal._id);
-                    const remaining = Math.max(
-                      0,
-                      (meal.actualQuantityPrepared || 0) -
-                        (meal.actualQuantityConsumed || 0)
-                    );
 
                     return (
                       <div key={meal._id} className="meal-row">
                         <h4>{meal.name}</h4>
                         <p>{meal.description}</p>
                         <p>Booked: {mealBookings.length}</p>
-                        <p>Remaining: {remaining}</p>
 
-                        {remaining > 0 && (
-                          <button
-                            onClick={() => setShowReportSurplus(meal._id)}
-                            className="btn-primary btn-small"
-                          >
-                            Report Surplus
-                          </button>
-                        )}
+                        <button
+                          onClick={() => setShowReportSurplus(meal._id)}
+                          className="btn-primary btn-small"
+                        >
+                          Report Surplus
+                        </button>
 
                         {showReportSurplus === meal._id && (
                           <div className="surplus-form-inline">
