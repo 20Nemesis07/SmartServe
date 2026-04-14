@@ -199,7 +199,11 @@ export default function MessDashboard() {
     meals.filter((meal) => meal.mealType === type);
 
   const getBookingsForMeal = (mealId) =>
-    bookings.filter((booking) => booking.mealId === mealId);
+    bookings.filter((booking) => {
+      // Handle both populated object and string ID
+      const bookingMealId = booking.mealId?._id || booking.mealId;
+      return bookingMealId === mealId || bookingMealId?.toString() === mealId?.toString();
+    });
 
   return (
     <div className="mess-dashboard">
