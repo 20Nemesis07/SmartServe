@@ -170,7 +170,7 @@ export default function NGORegister() {
           Already have an account? <a href="/ngo/login">Login here</a>
         </p>
         <p className="auth-link">
-          <a href="/login">Back to Student/Staff Login</a>
+          <a href="/">Back to Home</a>
         </p>
       </div>
     </div>

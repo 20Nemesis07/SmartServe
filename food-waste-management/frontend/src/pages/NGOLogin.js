@@ -68,7 +68,7 @@ export default function NGOLogin() {
           Don't have an account? <a href="/ngo/register">Register here</a>
         </p>
         <p className="auth-link">
-          <a href="/login">Back to Student/Staff Login</a>
+          <a href="/">Back to Home</a>
         </p>
       </div>
     </div>
