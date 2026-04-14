@@ -14,6 +14,7 @@ import NGODashboard from './pages/NGODashboard';
 import AddMealPage from './pages/AddMealPage';
 import ExcessFoodPage from './pages/ExcessFoodPage';
 import AddExcessFoodPage from './pages/AddExcessFoodPage';
+import YourBookingsPage from './pages/YourBookingsPage';
 import './styles/global.css';
 
 // Protected Route Component for Student/Mess Staff
@@ -75,6 +76,15 @@ function App() {
           element={
             <ProtectedRoute requiredRole="student">
               <StudentDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/your-bookings"
+          element={
+            <ProtectedRoute requiredRole="student">
+              <YourBookingsPage />
             </ProtectedRoute>
           }
         />

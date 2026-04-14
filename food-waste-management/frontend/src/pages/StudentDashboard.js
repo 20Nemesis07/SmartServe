@@ -142,6 +142,12 @@ export default function StudentDashboard() {
                 onChange={(e) => setSelectedDate(e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
               />
+              <button
+                onClick={() => navigate('/your-bookings')}
+                className="btn-bookings"
+              >
+                📋 Your Bookings
+              </button>
             </div>
 
             {loading ? (
@@ -209,59 +215,6 @@ export default function StudentDashboard() {
               </div>
             )}
           </section>
-
-          <aside className="bookings-sidebar">
-            <h3>Your Bookings</h3>
-            {bookings.filter(b => {
-              const bookingDate = new Date(b.date).toISOString().split('T')[0];
-              return b.status !== 'cancelled' && bookingDate === selectedDate;
-            }).length === 0 ? (
-              <p className="no-bookings">No bookings for {selectedDate}</p>
-            ) : (
-              <div className="bookings-list">
-                {bookings
-                  .filter(b => {
-                    const bookingDate = new Date(b.date).toISOString().split('T')[0];
-                    return b.status !== 'cancelled' && bookingDate === selectedDate;
-                  })
-                  .map((booking) => (
-                    <div key={booking._id} className="booking-item">
-                      <h4>{booking.mealId?.name}</h4>
-                      <p className={`status ${booking.status}`}>{booking.status.toUpperCase()}</p>
-                      <small>{new Date(booking.date).toLocaleDateString()}</small>
-
-                      <button
-                        onClick={() =>
-                          setSelectedQRCode(selectedQRCode === booking._id ? null : booking._id)
-                        }
-                        className="btn-qr"
-                      >
-                        {selectedQRCode === booking._id ? 'Hide QR Code' : 'Show QR Code'}
-                      </button>
-
-                      {selectedQRCode === booking._id && (
-                        <div className="qr-code-container" id={`qr-${booking._id}`}>
-                          <div className="qr-code-wrapper">
-                            <QRCodeCanvas
-                              value={getQRCodeValue(booking)}
-                              size={200}
-                              level="H"
-                              includeMargin={true}
-                            />
-                          </div>
-                          <button
-                            onClick={() => downloadQRCode(booking)}
-                            className="btn-download-qr"
-                          >
-                            📥 Download QR Code
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-              </div>
-            )}
-          </aside>
         </div>
       </div>
     </div>
