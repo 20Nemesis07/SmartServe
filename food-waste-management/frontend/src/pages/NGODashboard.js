@@ -115,6 +115,30 @@ export default function NGODashboard() {
     return `${Math.floor(diff / 1440)} days ago`;
   };
 
+  // Aggregate claimed food by meal and date
+  const getAggregatedClaimedFood = () => {
+    const aggregated = {};
+
+    claimedFood.forEach(food => {
+      const mealId = food.mealId?._id;
+      const date = new Date(food.date).toLocaleDateString();
+      const key = `${mealId}-${date}`;
+
+      if (!aggregated[key]) {
+        aggregated[key] = {
+          ...food,
+          totalQuantity: 0,
+          claimCount: 0,
+        };
+      }
+
+      aggregated[key].totalQuantity += food.quantity;
+      aggregated[key].claimCount += 1;
+    });
+
+    return Object.values(aggregated);
+  };
+
   return (
     <div className="ngo-dashboard">
       <header className="navbar">
@@ -278,8 +302,8 @@ export default function NGODashboard() {
               </div>
             ) : (
               <div className="food-list">
-                {claimedFood.map((food) => (
-                  <div key={food._id} className="food-card card claimed">
+                {getAggregatedClaimedFood().map((food) => (
+                  <div key={`${food.mealId?._id}-${new Date(food.date).toLocaleDateString()}`} className="food-card card claimed">
                     <div className="food-header">
                       <div className="meal-info">
                         <h4>{food.mealId?.name || 'Meal'}</h4>
@@ -288,7 +312,7 @@ export default function NGODashboard() {
                         </p>
                       </div>
                       <div className="quantity-badge claimed">
-                        {food.quantity} units
+                        {food.totalQuantity} units
                       </div>
                     </div>
 
@@ -300,7 +324,7 @@ export default function NGODashboard() {
                         <span>
                           📅 {new Date(food.date).toLocaleDateString()}
                         </span>
-                        <span>✅ Claimed {getTimeAgo(food.claimedAt)}</span>
+                        <span>✅ Claimed {food.claimCount} time(s)</span>
                       </div>
                       {food.notes && (
                         <div className="food-notes">
