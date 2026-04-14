@@ -181,8 +181,8 @@ export default function StudentDashboard() {
                       )}
 
                       <div className="detail-item">
-                        <strong>Expected:</strong>
-                        <p>{meal.baseQuantity} students | {meal.bookings?.length || 0} booked</p>
+                        <strong>Booked:</strong>
+                        <p>{meal.bookings?.length || 0} students</p>
                       </div>
                     </div>
 
