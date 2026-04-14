@@ -66,13 +66,14 @@ export default function NGODashboard() {
   };
 
   const handleClaimFood = async (foodId, availableQuantity) => {
-    // Validate quantity
-    if (!claimQuantity || claimQuantity <= 0) {
+    // Convert and validate quantity
+    const quantity = parseInt(claimQuantity);
+    if (!claimQuantity || quantity <= 0 || isNaN(quantity)) {
       setError('Please enter a valid quantity');
       return;
     }
 
-    if (parseInt(claimQuantity) > availableQuantity) {
+    if (quantity > availableQuantity) {
       setError(`Quantity cannot exceed available amount (${availableQuantity} units)`);
       return;
     }
@@ -80,7 +81,7 @@ export default function NGODashboard() {
     try {
       await ngoAPI.claimFood({
         foodSurplusId: foodId,
-        quantity: parseInt(claimQuantity),
+        quantity: quantity,
         notes: claimNotes,
       });
       setSuccess('Food claimed successfully!');
@@ -223,7 +224,7 @@ export default function NGODashboard() {
                             min="1"
                             max={food.quantity}
                             value={claimQuantity}
-                            onChange={(e) => setClaimQuantity(e.target.value)}
+                            onChange={(e) => setClaimQuantity(parseInt(e.target.value) || '')}
                             placeholder={`Max: ${food.quantity} units`}
                           />
                           <small>Available: {food.quantity} units</small>
