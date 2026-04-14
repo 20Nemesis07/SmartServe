@@ -7,7 +7,7 @@ import '../styles/form-page.css';
 export default function AddMealPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const [selectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -19,6 +19,12 @@ export default function AddMealPage() {
     date: selectedDate,
     markPrice: '',
   });
+
+  const handleDateChange = (e) => {
+    const newDate = e.target.value;
+    setSelectedDate(newDate);
+    setFormData(prev => ({ ...prev, date: newDate }));
+  };
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -71,7 +77,22 @@ export default function AddMealPage() {
         {success && <div className="success">{success}</div>}
 
         <form onSubmit={handleSubmit} className="card">
-          <div className="form-grid">
+          <div className="form-section">
+            <h3>Select Date</h3>
+            <div className="date-input-wrapper">
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                min={new Date().toISOString().split('T')[0]}
+                className="date-input"
+              />
+            </div>
+          </div>
+
+          <div className="form-section">
+            <h3>Meal Details</h3>
+            <div className="form-grid">
             <div className="form-group">
               <label>Meal Name</label>
               <input
@@ -106,16 +127,20 @@ export default function AddMealPage() {
                 placeholder="Price (optional)"
               />
             </div>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleFormChange}
-              rows="5"
-            />
+          <div className="form-section">
+            <h3>Additional Information</h3>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleFormChange}
+                rows="5"
+              />
+            </div>
           </div>
 
           <div className="form-actions">
