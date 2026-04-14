@@ -115,7 +115,7 @@ cp .env.example .env
 3. **Update .env with your credentials:**
 ```
 MONGODB_URI=mongodb://localhost:27017/food-waste-management
-PORT=5003
+PORT=5000
 JWT_SECRET=your_secret_key_here
 FRONTEND_URL=http://localhost:3000
 ```
@@ -130,7 +130,7 @@ mongod
 npm run dev
 ```
 
-Server will run on `http://localhost:5003`
+Server will run on `http://localhost:5000`
 
 ### Frontend Setup
 
@@ -147,7 +147,7 @@ cp .env.example .env
 
 3. **Update .env:**
 ```
-REACT_APP_API_URL=http://localhost:5003/api
+REACT_APP_API_URL=http://localhost:5000/api
 ```
 
 4. **Start React app:**
