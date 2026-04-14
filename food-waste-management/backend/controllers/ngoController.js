@@ -1,6 +1,7 @@
 const NGO = require('../models/NGO');
 const FoodSurplus = require('../models/FoodSurplus');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // Generate JWT Token
 const generateToken = (id, role) => {
