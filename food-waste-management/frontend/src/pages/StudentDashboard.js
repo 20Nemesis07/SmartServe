@@ -212,12 +212,18 @@ export default function StudentDashboard() {
 
           <aside className="bookings-sidebar">
             <h3>Your Bookings</h3>
-            {bookings.length === 0 ? (
-              <p className="no-bookings">No active bookings</p>
+            {bookings.filter(b => {
+              const bookingDate = new Date(b.date).toISOString().split('T')[0];
+              return b.status !== 'cancelled' && bookingDate === selectedDate;
+            }).length === 0 ? (
+              <p className="no-bookings">No bookings for {selectedDate}</p>
             ) : (
               <div className="bookings-list">
                 {bookings
-                  .filter(b => b.status !== 'cancelled')
+                  .filter(b => {
+                    const bookingDate = new Date(b.date).toISOString().split('T')[0];
+                    return b.status !== 'cancelled' && bookingDate === selectedDate;
+                  })
                   .map((booking) => (
                     <div key={booking._id} className="booking-item">
                       <h4>{booking.mealId?.name}</h4>
