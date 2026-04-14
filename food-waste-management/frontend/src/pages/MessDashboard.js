@@ -410,38 +410,6 @@ export default function MessDashboard() {
                         <h4>{meal.name}</h4>
                         <p>{meal.description}</p>
                         <p>Booked: {mealBookings.length}</p>
-
-                        <button
-                          onClick={() => setShowReportSurplus(meal._id)}
-                          className="btn-primary btn-small"
-                        >
-                          Report Surplus
-                        </button>
-
-                        {showReportSurplus === meal._id && (
-                          <div className="surplus-form-inline">
-                            <input
-                              type="number"
-                              name="quantity"
-                              value={surplusFormData.quantity}
-                              onChange={handleSurplusFormChange}
-                              placeholder="Quantity"
-                            />
-                            <input
-                              type="text"
-                              name="description"
-                              value={surplusFormData.description}
-                              onChange={handleSurplusFormChange}
-                              placeholder="Description"
-                            />
-                            <button
-                              onClick={() => handleReportSurplus(meal._id)}
-                              className="btn-primary btn-small"
-                            >
-                              Submit
-                            </button>
-                          </div>
-                        )}
                       </div>
                     );
                   })}
